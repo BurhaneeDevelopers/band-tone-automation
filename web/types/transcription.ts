@@ -65,6 +65,7 @@ export type InstrumentKey = MelodicInstrumentKey | 'drums' | 'bass_drum';
 export type TranscriptionPhase =
   | 'idle'
   | 'connecting'
+  | 'processing'
   | 'downloading'
   | 'separating'
   | 'transcribing'
@@ -141,6 +142,7 @@ export const ALL_KEYS = ['C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G', 'G#
 export const PHASE_LABELS: Record<TranscriptionPhase, string> = {
   idle: '',
   connecting: 'Connecting to transcription service...',
+  processing: 'Processing audio file...',
   downloading: 'Downloading audio from YouTube...',
   separating: 'Separating audio stems with AI...',
   transcribing: 'Detecting melody notes...',

@@ -1,12 +1,12 @@
 'use client';
 
-import { InstrumentResult, InstrumentKey, INSTRUMENT_DISPLAY } from '@/types/transcription';
+import { InstrumentResult, MelodicInstrumentKey, INSTRUMENT_DISPLAY } from '@/types/transcription';
 import { TranscriptionResult } from '@/types/transcription';
 import { NoteGrid } from './NoteGrid';
 import { ExportControls } from './ExportControls';
 
 interface InstrumentPanelProps {
-  instrumentKey: InstrumentKey;
+  instrumentKey: MelodicInstrumentKey;
   instrument: InstrumentResult;
   result: TranscriptionResult;
   title: string;

@@ -60,7 +60,7 @@ export class RealtimePitchDetector {
   private analyser: AnalyserNode | null = null;
   private source: MediaElementAudioSourceNode | null = null;
   private rafId: number | null = null;
-  private buf: Float32Array | null = null;
+  private buf: Float32Array<ArrayBuffer> | null = null;
   private onPitch: (sargam: string | null, freq: number) => void;
 
   constructor(cb: (sargam: string | null, freq: number) => void) {

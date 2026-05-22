@@ -1,4 +1,4 @@
-import { TranscriptionResult, InstrumentKey, INSTRUMENT_DISPLAY } from '@/types/transcription';
+import { TranscriptionResult, MelodicInstrumentKey, INSTRUMENT_DISPLAY } from '@/types/transcription';
 
 export async function exportAllInstrumentsPDF(
   result: TranscriptionResult,
@@ -8,7 +8,7 @@ export async function exportAllInstrumentsPDF(
   const { jsPDF } = await import('jspdf');
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
-  const instruments: InstrumentKey[] = ['trumpet', 'alto_saxophone', 'trombone', 'euphonium'];
+  const instruments: MelodicInstrumentKey[] = ['trumpet', 'alto_saxophone', 'trombone', 'euphonium'];
 
   instruments.forEach((key, idx) => {
     if (idx > 0) doc.addPage();
@@ -30,7 +30,7 @@ export async function exportAllInstrumentsPDF(
 
     doc.setFontSize(10);
     doc.setTextColor(122, 112, 96);
-    doc.text(`Date: ${date}  |  Concert Key: ${result.concert_key}  |  Duration: ${result.duration.toFixed(1)}s`, 105, 36, { align: 'center' });
+    doc.text(`Date: ${date}  |  Concert Key: ${result.original_key}  |  Duration: ${result.duration.toFixed(1)}s`, 105, 36, { align: 'center' });
 
     // Instrument header
     doc.setFillColor(30, 28, 21);
@@ -60,7 +60,7 @@ export async function exportAllInstrumentsPDF(
 
 export async function exportSingleInstrumentPDF(
   result: TranscriptionResult,
-  instrumentKey: InstrumentKey,
+  instrumentKey: MelodicInstrumentKey,
   title: string,
   date: string
 ) {

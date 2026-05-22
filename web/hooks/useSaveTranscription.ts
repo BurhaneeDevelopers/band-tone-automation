@@ -7,7 +7,7 @@ import { TranscriptionResult } from '@/types/transcription';
 export interface SaveTranscriptionInput {
   title: string;
   result: TranscriptionResult;
-  audioFile: File;
+  audioFile?: File;
   sourceType: 'youtube' | 'upload';
   sourceUrl?: string;
   songTitle?: string;
@@ -24,7 +24,7 @@ export function useSaveTranscription() {
       const formData = new FormData();
       formData.append('title', input.title);
       formData.append('result', JSON.stringify(input.result));
-      formData.append('audio_file', input.audioFile);
+      if (input.audioFile) formData.append('audio_file', input.audioFile);
       formData.append('source_type', input.sourceType);
       if (input.sourceUrl) formData.append('source_url', input.sourceUrl);
       if (input.songTitle) formData.append('song_title', input.songTitle);

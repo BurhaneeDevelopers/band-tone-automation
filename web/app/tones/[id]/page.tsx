@@ -3,10 +3,10 @@ import { redirect } from 'next/navigation';
 import { Navbar } from '@/components/layout/Navbar';
 import { SegmentCard } from '@/components/tones/SegmentCard';
 import { MergedNoteView } from '@/components/tones/MergedNoteView';
-import { InstrumentKey, Transcription } from '@/types/transcription';
+import { MelodicInstrumentKey, Transcription } from '@/types/transcription';
 import Link from 'next/link';
 
-const INSTRUMENTS: InstrumentKey[] = ['trumpet', 'alto_saxophone', 'trombone', 'euphonium'];
+const INSTRUMENTS: MelodicInstrumentKey[] = ['trumpet', 'alto_saxophone', 'trombone', 'euphonium'];
 
 export default async function ToneGroupDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

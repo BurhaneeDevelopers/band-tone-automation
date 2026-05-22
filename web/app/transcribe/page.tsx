@@ -91,7 +91,7 @@ export default function TranscribePage() {
       const saved = await saveMutation.mutateAsync({
         title: segmentLabel || songTitle || (inputTab === 'upload' ? (file?.name.replace(/\.[^.]+$/, '') ?? 'Transcription') : 'YouTube Transcription'),
         result,
-        audioFile: inputTab === 'upload' ? (file ?? undefined) : undefined,
+        audioFile: inputTab === 'upload' && file ? file : undefined,
         toneGroupId: toneGroupId !== 'new' ? toneGroupId || undefined : undefined,
         newGroupName: toneGroupId === 'new' ? newGroupName : undefined,
         sourceType: inputTab === 'youtube' ? 'youtube' : 'upload',

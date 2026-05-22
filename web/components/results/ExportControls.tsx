@@ -1,13 +1,13 @@
 'use client';
 
-import { TranscriptionResult, InstrumentKey } from '@/types/transcription';
+import { TranscriptionResult, InstrumentKey, MelodicInstrumentKey } from '@/types/transcription';
 import { exportAllInstrumentsPDF, exportSingleInstrumentPDF } from '@/lib/export/pdf';
 import { toast } from 'sonner';
 
 interface ExportControlsProps {
   result: TranscriptionResult;
   title: string;
-  instrumentKey?: InstrumentKey;
+  instrumentKey?: MelodicInstrumentKey;
   variant?: 'single' | 'all';
 }
 
@@ -41,8 +41,10 @@ function BrassButton({
 export function ExportControls({ result, title, instrumentKey, variant = 'all' }: ExportControlsProps) {
   const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-  const copySargamText = (key: InstrumentKey, withTiming = false) => {
-    const notes = result.instruments[key].notes;
+  const copySargamText = (key: MelodicInstrumentKey, withTiming = false) => {
+    const inst = result.instruments[key];
+    if (!('notes' in inst)) return;
+    const notes = inst.notes;
     let text: string;
     if (withTiming) {
       text = notes.map(n => `${n.sargam}(${n.start.toFixed(2)}s)`).join(' ');
@@ -54,7 +56,7 @@ export function ExportControls({ result, title, instrumentKey, variant = 'all' }
   };
 
   const copyAllCompact = () => {
-    const keys: InstrumentKey[] = ['trumpet', 'alto_saxophone', 'trombone', 'euphonium'];
+    const keys: MelodicInstrumentKey[] = ['trumpet', 'alto_saxophone', 'trombone', 'euphonium'];
     const text = keys.map(k => {
       const inst = result.instruments[k];
       return `[${inst.label}]\n${inst.notes.map(n => n.sargam).join(' ')}`;

@@ -1,11 +1,11 @@
 'use client';
 
-import { Transcription, InstrumentKey, INSTRUMENT_DISPLAY, TranscriptionNote } from '@/types/transcription';
+import { Transcription, MelodicInstrumentKey, INSTRUMENT_DISPLAY, TranscriptionNote } from '@/types/transcription';
 import { NoteChip } from '@/components/results/NoteChip';
 
 interface MergedNoteViewProps {
   segments: Transcription[];
-  instrumentKey: InstrumentKey;
+  instrumentKey: MelodicInstrumentKey;
 }
 
 export function MergedNoteView({ segments, instrumentKey }: MergedNoteViewProps) {
@@ -35,7 +35,7 @@ export function MergedNoteView({ segments, instrumentKey }: MergedNoteViewProps)
       <div className="flex flex-wrap gap-1.5">
         {segments.map((seg, segIdx) => {
           const inst = seg.result_json?.instruments?.[instrumentKey];
-          if (!inst) return null;
+          if (!inst || !('notes' in inst)) return null;
           return (
             <div key={seg.id} className="contents">
               {segIdx > 0 && (
