@@ -18,6 +18,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+# Decode YouTube cookies from environment variable if present (for age-restricted videos)
+RUN if [ -n "$YOUTUBE_COOKIES_BASE64" ]; then \
+    echo "$YOUTUBE_COOKIES_BASE64" | base64 -d > youtube_cookies.txt && \
+    echo "YouTube cookies configured"; \
+    fi
+
 # Pre-download models at build time to avoid cold-start downloads
 RUN python -c "import demucs.pretrained; demucs.pretrained.get_model('htdemucs')" || echo "Demucs pre-download skipped"
 RUN python -c "from basic_pitch.inference import predict; print('basic-pitch ready')" || echo "basic-pitch pre-load skipped"
