@@ -113,6 +113,7 @@ export default function TranscribePage() {
     yt_geo_blocked: 'This video is not available in the server\'s region.',
     yt_private: 'This video is private and cannot be downloaded.',
     yt_age_restricted: 'This video is age-restricted. The server needs YouTube authentication to download it.',
+    yt_download_failed: 'YouTube download failed. The video may be unavailable or require authentication.',
     yt_too_long: 'Video exceeds the 5-minute limit. Please use the segment range to select a portion.',
     no_notes: 'No pitched notes were detected in the audio. Try a different melody source.',
     separation_failed: 'Stem separation failed. The service may be under memory pressure — please retry.',

@@ -77,9 +77,7 @@ def download_youtube(
         yt_cmd += ["--cookies", cookies_path]
         logger.info("Using YouTube cookies for authentication")
     else:
-        # Try to use browser cookies as fallback
-        yt_cmd += ["--cookies-from-browser", "chrome"]
-        logger.info("Attempting to use Chrome browser cookies")
+        logger.warning("No YouTube cookies file found - age-restricted videos will fail")
     
     yt_cmd += ["--output", raw_path, url]
 
@@ -92,7 +90,10 @@ def download_youtube(
         if "private" in stderr:
             raise ValueError("yt_private: This video is private")
         if "age" in stderr or "sign in to confirm your age" in stderr:
-            raise ValueError("yt_age_restricted: Age-restricted video. Server needs YouTube authentication cookies.")
+            if os.path.exists(cookies_path):
+                raise ValueError("yt_age_restricted: Age-restricted video. Your cookies may have expired - please update them.")
+            else:
+                raise ValueError("yt_age_restricted: Age-restricted video. Server needs YouTube cookies configured. See README_COOKIES.md")
         raise ValueError(f"yt_download_failed: {result.stderr[:300]}")
 
     # Find downloaded file
