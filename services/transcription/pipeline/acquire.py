@@ -60,6 +60,9 @@ def download_youtube(
     raw_path = os.path.join(session_dir, "raw_audio.%(ext)s")
     wav_path = os.path.join(session_dir, "audio.wav")
 
+    # Check for cookies file (for age-restricted videos)
+    cookies_path = os.path.join(os.path.dirname(__file__), "..", "youtube_cookies.txt")
+    
     yt_cmd = [
         "yt-dlp",
         "--extract-audio",
@@ -67,9 +70,18 @@ def download_youtube(
         "--no-playlist",
         "--max-filesize", "100m",
         "--user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-        "--output", raw_path,
-        url,
     ]
+    
+    # Add cookies if file exists
+    if os.path.exists(cookies_path):
+        yt_cmd += ["--cookies", cookies_path]
+        logger.info("Using YouTube cookies for authentication")
+    else:
+        # Try to use browser cookies as fallback
+        yt_cmd += ["--cookies-from-browser", "chrome"]
+        logger.info("Attempting to use Chrome browser cookies")
+    
+    yt_cmd += ["--output", raw_path, url]
 
     result = subprocess.run(yt_cmd, capture_output=True, text=True)
 
@@ -79,8 +91,8 @@ def download_youtube(
             raise ValueError("yt_geo_blocked: Video not available in the server's region")
         if "private" in stderr:
             raise ValueError("yt_private: This video is private")
-        if "age" in stderr:
-            raise ValueError("yt_age_restricted: Age-restricted video — cannot download")
+        if "age" in stderr or "sign in to confirm your age" in stderr:
+            raise ValueError("yt_age_restricted: Age-restricted video. Server needs YouTube authentication cookies.")
         raise ValueError(f"yt_download_failed: {result.stderr[:300]}")
 
     # Find downloaded file

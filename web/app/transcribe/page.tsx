@@ -112,6 +112,7 @@ export default function TranscribePage() {
   const ERROR_MESSAGES: Record<string, string> = {
     yt_geo_blocked: 'This video is not available in the server\'s region.',
     yt_private: 'This video is private and cannot be downloaded.',
+    yt_age_restricted: 'This video is age-restricted. The server needs YouTube authentication to download it.',
     yt_too_long: 'Video exceeds the 5-minute limit. Please use the segment range to select a portion.',
     no_notes: 'No pitched notes were detected in the audio. Try a different melody source.',
     separation_failed: 'Stem separation failed. The service may be under memory pressure — please retry.',
